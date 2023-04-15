@@ -8,7 +8,6 @@ const db_url = process.env.DB_URL;
 
 const connection = async () => {
     mongoose.set('strictQuery', false);
-    console.log('here', db_username, db_password, db_url);
 
     await mongoose.connect(`mongodb+srv://${db_username}:${db_password}@${db_url}/ticket_book_data?retryWrites=true&w=majority`);
     console.log('DB connected');

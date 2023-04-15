@@ -1,5 +1,6 @@
 const express = require('express')
-const cors = require('cors')
+const cors = require('cors');
+const SeatRouter = require('./routers/ticketsRouter');
 
 
 const app = express();
@@ -13,6 +14,8 @@ app.get('/', (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 })
+
+app.use('/api/seats', SeatRouter);
 
 
 

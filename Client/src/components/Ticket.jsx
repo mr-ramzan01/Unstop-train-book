@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Box, Button, Container, CssBaseline, TextField } from "@mui/material";
 
-export const Ticket = () => {
-  const [data, setData] = useState({seat: 'dfs'});
-  
+export const Ticket = ({ setIsBooked, isBooked }) => {
+  const [data, setData] = useState({ seat: "" });
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
@@ -11,8 +12,30 @@ export const Ticket = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-  }
+    if (data.seat > 7) {
+      alert("You can book upto 7 seats at a time");
+      return;
+    }
+    setLoading(true);
+    console.log(data.seat, "seat");
+    fetch(`http://localhost:8080/api/seats/book`, {
+      method: "POST",
+      body: JSON.stringify({ noOfSeats: data.seat }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res, "response");
+      })
+      .catch((err) => console.log(err, "error"))
+      .finally(() => {
+        setLoading(false);
+        setIsBooked(!isBooked);
+        setData({seat: ''})
+      });
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -39,7 +62,7 @@ export const Ticket = () => {
         >
           <TextField
             fullWidth
-            name='seat'
+            name="seat"
             type="number"
             value={data.seat}
             placeholder="Enter no. of seats"

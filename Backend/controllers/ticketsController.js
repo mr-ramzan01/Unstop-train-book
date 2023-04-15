@@ -48,6 +48,8 @@ function findSubsetWithSum(arr, targetSum) {
 
 async function getAllSeats(req, res) {
   try {
+
+    //finding all seats
     const data = await SeatsModel.find();
     return res.status(200).send({
       success: true,
@@ -64,6 +66,8 @@ async function getAllSeats(req, res) {
 async function bookSeats(req, res) {
 
   let seats = req.body.noOfSeats;
+
+  // condition when seats are more than 7
   if (seats > 7) {
     return res.status(300).send({
       success: false,
@@ -94,8 +98,11 @@ async function bookSeats(req, res) {
           seatstobeBooked.push(allSeats[j - 1]);
         }
 
+        // condition when we get required seats 
         if (count >= seats) {
           await SeatsModel.updateMany(
+
+            // updating database
             { _id: { $in: seatstobeBooked.map((el) => el._id) } },
             { $set: { isAvailable: false } }
           );
@@ -110,6 +117,7 @@ async function bookSeats(req, res) {
       count = 0;
     }
 
+    // finding nearby seats
     let availableSeats = findSubsetWithSum(max, seats);
 
     if (availableSeats === false) {
@@ -146,6 +154,7 @@ async function bookSeats(req, res) {
 
 async function ResetSeats(req, res) {
     try {
+        // Resetting all booked seats
         await SeatsModel.updateMany({isAvailable: true});
         return res.status(200).send({
           success: true,

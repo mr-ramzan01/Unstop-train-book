@@ -11,7 +11,7 @@ export const Train = ({ isBooked }) => {
 
   const getSeats = () => {
     setLoading(true);
-    fetch(`http://localhost:8080/api/seats`)
+    fetch(`https://ticket-data.onrender.com/api/seats`)
       .then((res) => res.json())
       .then((res) => {
         const rows = [];
@@ -29,7 +29,7 @@ export const Train = ({ isBooked }) => {
 
   const handleReset = () => {
     setLoading(true);
-    fetch(`http://localhost:8080/api/seats/reset`, {
+    fetch(`https://ticket-data.onrender.com/api/seats/reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

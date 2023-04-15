@@ -18,7 +18,7 @@ export const Ticket = ({ setIsBooked, isBooked }) => {
     }
     setLoading(true);
     console.log(data.seat, "seat");
-    fetch(`http://localhost:8080/api/seats/book`, {
+    fetch(`https://ticket-data.onrender.com/api/seats/book`, {
       method: "POST",
       body: JSON.stringify({ noOfSeats: data.seat }),
       headers: {
